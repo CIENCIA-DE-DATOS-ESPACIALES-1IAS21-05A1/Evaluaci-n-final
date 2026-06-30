@@ -1,40 +1,80 @@
 rm(list = ls())
 #setwd("")
 
-gpklink="https://github.com/CIENCIA-DE-DATOS-ESPACIALES-1IAS21-05A1/Evaluaci-n-final/raw/main"
+gpklink="https://github.com/CIENCIA-DE-DATOS-ESPACIALES-1IAS21-05A1/Evaluaci-n-final/raw/main/seattle.gpkg"
 
 library(sf)
-
-# Leer los mapas exportados desde Colab
-map1=read_sf(paste0(gpklink,"/LISA_KNN.gpkg"))
-map2=read_sf(paste0(gpklink,"/LISA_Perimeter.gpkg"))
-map3=read_sf(paste0(gpklink,"/LISA_Queen.gpkg"))
-map4=read_sf(paste0(gpklink,"/LISA_Rook.gpkg"))
-
 library(ggplot2)
+library(RColorBrewer)
 
-map1gg=ggplot()+
+# Leer las capas del GeoPackage
+map1 = read_sf(gpklink, layer = "Queen")
+map2 = read_sf(gpklink, layer = "Rook")
+map3 = read_sf(gpklink, layer = "Knn")
+map4 = read_sf(gpklink, layer = "Perimeter")
+
+# Mapa Queen
+map1gg =
+  ggplot()+
   theme_bw()+
-  geom_sf(data=map1,aes(fill=LISA),color="grey90")
+  geom_sf(
+    data=map1,
+    aes(fill=LISA),
+    color="grey40",
+    linewidth=0.15
+  )+
+  scale_fill_brewer(palette="PuOr")+
+  labs(title="LISA - Queen",fill="LISA")
+
 map1gg
 
-map2gg=ggplot()+
+# Mapa Rook
+map2gg =
+  ggplot()+
   theme_bw()+
-  geom_sf(data=map2,aes(fill=LISA),color="grey90")
+  geom_sf(
+    data=map2,
+    aes(fill=LISA),
+    color="grey40",
+    linewidth=0.15
+  )+
+  scale_fill_brewer(palette="PuOr")+
+  labs(title="LISA - Rook",fill="LISA")
+
 map2gg
 
-map3gg=ggplot()+
+# Mapa Knn
+map3gg =
+  ggplot()+
   theme_bw()+
-  geom_sf(data=map3,aes(fill=LISA),color="grey90")
+  geom_sf(
+    data=map3,
+    aes(fill=LISA),
+    color="grey40",
+    linewidth=0.15
+  )+
+  scale_fill_brewer(palette="PuOr")+
+  labs(title="LISA - Knn",fill="LISA")
+
 map3gg
 
-map4gg=ggplot()+
+# Mapa Perimeter
+map4gg =
+  ggplot()+
   theme_bw()+
-  geom_sf(data=map4,aes(fill=LISA),color="grey90")
+  geom_sf(
+    data=map4,
+    aes(fill=LISA),
+    color="grey40",
+    linewidth=0.15
+  )+
+  scale_fill_brewer(palette="PuOr")+
+  labs(title="LISA - Perimeter",fill="LISA")
+
 map4gg
 
-# Guardar los mapas para el dashboard
-saveRDS(map1gg,file="map1.rds")
-saveRDS(map2gg,file="map2.rds")
-saveRDS(map3gg,file="map3.rds")
-saveRDS(map4gg,file="map4.rds")
+# Guardar los objetos
+saveRDS(map1gg,"map1.rds")
+saveRDS(map2gg,"map2.rds")
+saveRDS(map3gg,"map3.rds")
+saveRDS(map4gg,"map4.rds")
